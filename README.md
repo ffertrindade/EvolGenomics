@@ -1,7 +1,7 @@
 # EvolGenomics
-Tutorial for the 3rd module Evolutionary Genomics  of the curse Bioinformática y Genómica para la Biodiversidad.
+Tutorial for the 3rd module *Evolutionary Genomics*  of the curse **Bioinformática y Genómica para la Biodiversidad**.
 
-Instructors:
+Module instructors:
 - **Dr. Eduardo Eizirik**, Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS), Brasil
 - **Dr. Jorge Ramírez**, Universidad Nacional Mayor de San Marcos, Perú
 - **Dr. Henrique Vieira Figueiró**, (?)
