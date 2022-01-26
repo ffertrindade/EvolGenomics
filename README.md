@@ -27,3 +27,4 @@ Today you are going to learn how to perform basic populational analyses using co
 ### Estimates of genome-wide diversity
 ### Estimates of population structure and admixture
 ### Estimates of Runs of Homozygosity
+Teste
