@@ -30,5 +30,3 @@ Today you are going to learn how to perform analyses of natural selection on com
 ### Investigating adaptive evolution based on genome-wide datasets
 ### Inference of historical demography: PSMC as an example
 
-
-Teste
