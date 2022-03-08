@@ -17,15 +17,20 @@ Today you are going to learn how to use complete genomes to reconstruct the grou
 ## Day 8: Population Genomics
 Today you are going to learn how to perform basic populational analyses using complete genomes at low depth, including calling, diversity and homozygosity estimates, population structure and admixture. We're going to use as example the data from [Pecnerova et al., 2021](https://doi.org/10.1016/j.cub.2021.01.064).
 
-### SNP calling vs. genotype likelihoods
-The data we'll be using today are **17 leopard individuals from 6 populations across Africa** (see [metadata](https://github.com/ffertrindade/EvolGenomics/blob/main/data/metadata.csv)). These data had been previouslly mapped against domestic cat reference [felCat9](https://www.ncbi.nlm.nih.gov/assembly/GCF_000181335.3) (and you can check the used workflow [here](https://github.com/ffertrindade/EvolGenomics/tree/main/workflows/fastq2bam)) and we'll be using today the [bam](https://github.com/ffertrindade/EvolGenomics/tree/main/data/leopard_population) files containing only the **chromosome A1**.
+The data we'll be using are **17 leopard individuals from 6 populations across Africa** (see [metadata](https://github.com/ffertrindade/EvolGenomics/blob/main/data/metadata.csv)). These data had been previouslly subsampled and mapped to domestic cat [felCat9](https://www.ncbi.nlm.nih.gov/assembly/GCF_000181335.3) **chromosome E1**, and the resulted [bam](https://github.com/ffertrindade/EvolGenomics/tree/main/data/leopard_population) files are which we'll be using for this session. Bellow you can see basic stats of mapping quality and depth distribution for each individual along the chrE1. You can check the detailed workflow [here](https://github.com/ffertrindade/EvolGenomics/tree/main/workflows/mapping).
+![alt text](http://url/to/img.png)
 
+### SNP calling vs. genotype likelihoods
+We'll use two different approaches to identify informative sites from the above mentioned dataset, which we'll call *leopard_17ind*: (i) genotype likelihoods and (ii) SNP calling. Note that depending on your dataset design (specially conserning depth) and the analyses and software you're planning to use, you'll choose one or another approach. In order to optimize run, you can check the [workflow](https://github.com/ffertrindade/EvolGenomics/tree/main/workflows/calling), but here we're going to run step by step.
+´´´
+some code here
+´´´
 ### Estimates of genome-wide diversity
 ### Estimates of population structure and admixture
 ### Estimates of Runs of Homozygosity
 
 ## Day 9: Adaptive evolution and demographic history
-Today you are going to learn how to perform analyses of natural selection on complete genomes and how to infer historical demography. We're going to use as example the data from [Figueiró et al., 2017](https://www.science.org/doi/10.1126/sciadv.1700299).
+Today you are going to learn how to perform analyses of natural selection on complete genomes and how to infer historical demography. We're going to use as example the data from [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
 
 ### Investigating adaptive evolution based on genome-wide datasets
 ### Inference of historical demography: PSMC as an example
