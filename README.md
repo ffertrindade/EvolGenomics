@@ -33,11 +33,12 @@ Estimate the genotype likelihoods using [ANGSD](http://www.popgen.dk/angsd/index
 ```
 mkdir gl
 cd gl
-angsd -bam ~/leopard_data/leopard_17ind.bamlist -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -doCounts 0 -minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -minInd 17 -setMaxDepth 100 -out leopard_17ind -P 4
+angsd -bam ~/leopard_data/leopard_17ind.bamlist -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -minInd 17 -out leopard_17ind -P 4
 cd ~
 ```
-Below you can see how a beagle and maf file look like:
-![IMAGE HERE](http://url/to/img.png)
+The above command resulted in 560520 variable sites filtered according the parameters. Below you can see how our BEAGLE (file with genotype likelihoods for each individual) and MAF (file with allele frequencies for the entire population) files look like:
+![BEAGLE](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/file_beagle.PNG)
+![MAF](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/file_maf.PNG)
 Perform SNP calling using [GATK](https://gatk.broadinstitute.org/hc/en-us)
 ```
 mkdir gatk
