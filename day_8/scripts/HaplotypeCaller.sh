@@ -17,12 +17,14 @@ DATASET=$4 # Name of the dataset, ex. leopard_17ind
 
 ## creating command-line
 REG=$(tr \: - <<<$REGION)
-echo -e "gatk3 \"-Xmx4g\" -T HaplotypeCaller -R $REFERENCE -L \"$REGION\" -ploidy 2 \ " > HaplotypeCaller.$REG.run.sh
+echo -ne "gatk3 \"-Xmx4g\" -T HaplotypeCaller -R $REFERENCE -L \"$REGION\" -ploidy 2 " > HaplotypeCaller.$REG.run.sh
 
 for (( i=0; i<"${#BAMLIST[@]}"; i++ )); do
-	echo -e "-I ${BAMLIST[i]} \ " >> HaplotypeCaller.$REG.run.sh
+	echo -ne "-I ${BAMLIST[i]} " >> HaplotypeCaller.$REG.run.sh
 done
 
-echo -e "\>$DATASET.$REG.vcf.gz" >> HaplotypeCaller.$REG.run.sh
+echo -ne "> $DATASET.$REG.vcf" >> HaplotypeCaller.$REG.run.sh
 
-bash HaplotypeCaller.$REG.run.sh
+bash HaplotypeCaller.$REG.run.sh 2> $DATASET.$REG.gatk.log
+
+gzip $DATASET.$REG.vcf
