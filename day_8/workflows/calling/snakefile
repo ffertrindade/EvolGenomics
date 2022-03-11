@@ -12,7 +12,7 @@ rule all:
 rule genotype_likelihoods:
 	message: """##### Running ANGSD... #####"""
 	input:
-		bam=expand("../../data/leopard_population/{sample}.mapped.sorted.bam", sample=config["samples"]),
+		bam=expand("../leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
 		bamlist={config["bamlist"]}
 	output:
 		"gl/{dataset}.beagle.gz",
@@ -21,23 +21,24 @@ rule genotype_likelihoods:
 		{config["threads"]}
 	params:
 		prefix={config["dataset"]},
-		minInd={config["minInd"]}
+		minInd={config["minInd"]},
+		MaxDepth={config["MaxDepth"]}
 	log:
 		"logs/gl/{dataset}.log"
 	shell:
 		"angsd -bam {input.bamlist} -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 "
-		"-minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 "
+		"-minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -setMaxDepth {params.prefix.MaxDepth} "
 		"-minInd {params.minInd} -out {params.prefix} -P {threads} 2> {log}"
 
 rule snp_calling:
 	message: """##### Running GATK... #####"""
 	input:
-		bam=expand("../../data/leopard_population/{sample}.mapped.sorted.bam", sample=config["samples"]),
-		bai=expand("../../data/leopard_population/{sample}.mapped.sorted.bam.bai", sample=config["samples"]),
+		bam=expand("../leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
+		bai=expand("../leopard_data/{sample}.mapped.sorted.bam.bai", sample=config["samples"]),
 		bamlist={config["bamlist"]},
 		ref={config["reference"]}
 	output:
-		temp("gatk/{dataset}.{region}.vcf")
+		"gatk/{dataset}.{region}.vcf"
 	threads:
 		{config["threads"]}
 	params:
@@ -46,7 +47,7 @@ rule snp_calling:
 	log:
 		"logs/gatk/{dataset}.snp_calling.log"
 	shell:
-		"HaplotypeCaller.sh {input.bamlist} {input.ref} {params.region} {params.prefix} 2> {log}"
+		"../scripts/HaplotypeCaller.sh {input.bamlist} {input.ref} {params.region} {params.prefix} 2> {log}"
 
 rule vcf_filtering:
 	message: """##### Running vcftools... #####"""
@@ -54,7 +55,7 @@ rule vcf_filtering:
 		vcf="gatk/{dataset}.{region}.vcf"
 		ref={config["reference"]}
 	output:
-		temp("gatk/{dataset}.{region}.filtered.vcf")
+		"gatk/{dataset}.{region}.filtered.vcf"
 	threads:
 		{config["threads"]}
 	params:
@@ -89,7 +90,7 @@ rule vcf_stats:
 	params:
 		prefix={config["dataset"]}
 	shell:
-		"vcfStats.sh {input} {params.prefix} 2> {log}"
+		"03-07-2022vcfStats.sh {input} {params.prefix} 2> {log}"
 		
 #gatk VariantFiltration -V {input.vcf} \
 #ls-R {input.ref} \
