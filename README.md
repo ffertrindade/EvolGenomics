@@ -39,22 +39,29 @@ cd ~
 The above command resulted in 560520 variable sites filtered according the parameters. Below you can see how our BEAGLE (file with genotype likelihoods for each individual) and MAF (file with allele frequencies for the entire population) files look like:
 ![BEAGLE](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/file_beagle.PNG)
 ![MAF](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/file_maf.PNG)
+
 Perform SNP calling using [GATK](https://gatk.broadinstitute.org/hc/en-us)
 ```
 mkdir gatk
 cd gatk
-bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:1-20000000" leopard_17ind
-bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:20000000-40000000" leopard_17ind
-bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:40000000-63494689" leopard_17ind
+bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta "NC_018736.3:1-20000000" leopard_17ind
+bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta "NC_018736.3:20000000-40000000" leopard_17ind
+bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta "NC_018736.3:40000000-63494689" leopard_17ind
 vcftools --vcf leopard_17ind.NC_018736.3-1-20000000.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-1-20000000 --minDP 5 --maxDP 15 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 vcftools --vcf leopard_17ind.NC_018736.3-20000000-40000000.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-20000000-40000000 --minDP 5 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 vcftools --vcf leopard_17ind.NC_018736.3-40000000-63494689.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-40000000-63494689 --minDP 5 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 bcftools concat -o leopard_17ind.filtered.vcf leopard_17ind.*.filtered.vcf
 bash ~/scripts/vcfStats.sh leopard_17ind.filtered.vcf leopard_17ind
+cd ~
 ```
 
 ### Estimates of population structure and admixture
-
+```
+mkdir ngsadmix
+cd ngsadmix
+NGSadmix -likes ../gl/leopard_17ind.beagle.gz -K 2 -P 4 -seed 1 -o leopard_17ind_k2
+# Use the same command line above to run for K up to 6
+```
 ## Day 9: Adaptive evolution and demographic history
 Today you are going to learn how to perform analyses of natural selection on complete genomes and how to infer historical demography. We're going to use as example the data from [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
 
