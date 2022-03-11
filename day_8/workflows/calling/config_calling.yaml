@@ -16,8 +16,8 @@ samples:
  - ERR5056154
  - ERR5056155
  - ERR5056158
-reference: ~/leopard_data/felcat9_chrE1.fasta.gz
-bamlist: ~/leopard_data/leopard_17ind.bamlist
+reference: /home/courses/instructor01/leopard_data/felcat9_chrE1.fasta.gz
+bamlist: /home/courses/instructor01/leopard_data/leopard_17ind.bamlist
 dataset: leopard_17ind
 regions:
  - NC_018736.3:1-20000000
