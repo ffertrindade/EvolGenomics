@@ -21,13 +21,12 @@ rule genotype_likelihoods:
 		config["threads"]
 	params:
 		prefix={config["dataset"]},
-		minInd={config["minInd"]},
-		MaxDepth={config["MaxDepth"]}
+		minInd={config["minInd"]}
 	log:
 		"logs/gl/{dataset}.log"
 	shell:
-		"angsd -bam {input.bamlist} -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -doCounts 0 "
-		"-minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -setMaxDepth {params.prefix.MaxDepth} "
+		"angsd -bam {input.bamlist} -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 "
+		"-minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 "
 		"-minInd {params.minInd} -out {params.prefix} -P {threads} 2> {log}"
 
 rule snp_calling:
