@@ -22,19 +22,16 @@ The data we'll be using are **17 leopard individuals from 6 populations across A
 ### SNP calling vs. genotype likelihoods
 We'll use two different approaches to identify informative sites from the above mentioned dataset, which we'll call *leopard_17ind*: (i) genotype likelihoods and (ii) SNP calling. Note that depending on your dataset design (specially conserning depth) and the analyses and software you're planning to use, you'll choose one or another approach. In order to optimize our run, you can check how we've created these files in [workflow](https://github.com/ffertrindade/EvolGenomics/main/day_8/workflows/calling), but here are the step by step in case you want to reproduce them (we'll give the files for the final exercises since the below steps take too long).
 
-Download the data files and scripts from our repo:
+The bam files are avaiable in a shared folder on the server. Download the scripts from our repo:
 ```
-mkdir leopard_data
-cd leopard_data
-wget https://github.com/ffertrindade/EvolGenomics/main/day_8/data/*
-cd ~
+mkdir scripts
 wget https://github.com/ffertrindade/EvolGenomics/main/day_8/scripts
 ```
 Estimate the genotype likelihoods using [ANGSD](http://www.popgen.dk/angsd/index.php/ANGSD):
 ```
 mkdir gl
 cd gl
-angsd -bam ../leopard_data/leopard_17ind.bamlist -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -minInd 13 -out leopard_17ind -P 4
+angsd -bam ../leopard_data/leopard_17ind.bamlist -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -minInd 13 -setMaxDepth 85 -out leopard_17ind -P 4
 cd ~
 ```
 Below you can see how a beagle and maf file look like:
