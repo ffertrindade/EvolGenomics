@@ -12,13 +12,13 @@ rule all:
 rule genotype_likelihoods:
 	message: """##### Running ANGSD... #####"""
 	input:
-		bam=expand("~/leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
+		bam=expand("/home/courses/instructor01/leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
 		bamlist={config["bamlist"]}
 	output:
 		"gl/{dataset}.beagle.gz",
 		"gl/{dataset}.mafs.gz"
 	threads:
-		{config["threads"]}
+		config["threads"]
 	params:
 		prefix={config["dataset"]},
 		minInd={config["minInd"]},
@@ -33,37 +33,37 @@ rule genotype_likelihoods:
 rule snp_calling:
 	message: """##### Running GATK... #####"""
 	input:
-		bam=expand("~/leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
-		bai=expand("~/leopard_data/{sample}.mapped.sorted.bam.bai", sample=config["samples"]),
+		bam=expand("/home/courses/instructor01/leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
+		bai=expand("/home/courses/instructor01/leopard_data/{sample}.mapped.sorted.bam.bai", sample=config["samples"]),
 		bamlist={config["bamlist"]},
 		ref={config["reference"]}
 	output:
 		"gatk/{dataset}.{region}.vcf"
 	threads:
-		{config["threads"]}
+		config["threads"]
 	params:
-		region={wildcard.region},
+		#region={wildcard.region},
 		prefix={config["dataset"]}
 	log:
-		"logs/gatk/{dataset}.snp_calling.log"
+		"logs/gatk/{dataset}.{region}.snp_calling.log"
 	shell:
-		"bash ~/scripts/HaplotypeCaller.sh {input.bamlist} {input.ref} {params.region} {params.prefix} 2> {log}"
+		"bash /home/courses/instructor01/scripts/HaplotypeCaller.sh {input.bamlist} {input.ref} {wildcard.region} {params.prefix} 2> {log}"
 
 rule vcf_filtering:
 	message: """##### Running vcftools... #####"""
 	input:
-		vcf="gatk/{dataset}.{region}.vcf"
+		vcf="gatk/{dataset}.{region}.vcf",
 		ref={config["reference"]}
 	output:
 		"gatk/{dataset}.{region}.filtered.vcf"
 	threads:
-		{config["threads"]}
+		config["threads"]
 	params:
 		prefix="{dataset}.{region}",
 		minDP={config["minDP"]},
 		maxDP={config["maxDP"]}
 	log:
-		"logs/gatk/{dataset}.vcf_filtering.log"
+		"logs/gatk/{dataset}.{region}.vcf_filtering.log"
 	shell:
 		"vcftools --vcf {input.vcf} --recode --recode-INFO-all --out {params.prefix} "
 		"--minDP {paramns.minDP} --maxDP {paramns.maxDP} --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 "
@@ -91,7 +91,7 @@ rule vcf_stats:
 	params:
 		prefix={config["dataset"]}
 	shell:
-		"bash ~/scripts/vcfStats.sh {input} {params.prefix} 2> {log}"
+		"bash /home/courses/instructor01/scripts/vcfStats.sh {input} {params.prefix} 2> {log}"
 		
 #gatk VariantFiltration -V {input.vcf} \
 #ls-R {input.ref} \
