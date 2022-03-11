@@ -16,8 +16,8 @@ samples:
  - ERR5056154
  - ERR5056155
  - ERR5056158
-reference: ../leopard_data/felcat9_chrE1.fasta.gz
-bamlist: ../leopard_data/leopard_17ind.bamlist
+reference: ~/leopard_data/felcat9_chrE1.fasta.gz
+bamlist: ~/leopard_data/leopard_17ind.bamlist
 dataset: leopard_17ind
 regions:
  - NC_018736.3:1-20000000
@@ -25,5 +25,6 @@ regions:
  - NC_018736.3:40000000-63494689
 threads: 3
 minDP: 3 #vcf_filtering rule
-minInd: 15 #genotype_likelihoods rule
-MaxDepth: 85
+maxDP: 8 #vcf_filtering rule
+minInd: 17 #genotype_likelihoods rule
+MaxDepth: 100 #genotype_likelihoods rule
