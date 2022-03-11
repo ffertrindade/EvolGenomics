@@ -12,7 +12,7 @@ rule all:
 rule genotype_likelihoods:
 	message: """##### Running ANGSD... #####"""
 	input:
-		bam=expand("../leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
+		bam=expand("~/leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
 		bamlist={config["bamlist"]}
 	output:
 		"gl/{dataset}.beagle.gz",
@@ -26,15 +26,15 @@ rule genotype_likelihoods:
 	log:
 		"logs/gl/{dataset}.log"
 	shell:
-		"angsd -bam {input.bamlist} -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 "
+		"angsd -bam {input.bamlist} -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -doCounts 0 "
 		"-minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -setMaxDepth {params.prefix.MaxDepth} "
 		"-minInd {params.minInd} -out {params.prefix} -P {threads} 2> {log}"
 
 rule snp_calling:
 	message: """##### Running GATK... #####"""
 	input:
-		bam=expand("../leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
-		bai=expand("../leopard_data/{sample}.mapped.sorted.bam.bai", sample=config["samples"]),
+		bam=expand("~/leopard_data/{sample}.mapped.sorted.bam", sample=config["samples"]),
+		bai=expand("~/leopard_data/{sample}.mapped.sorted.bam.bai", sample=config["samples"]),
 		bamlist={config["bamlist"]},
 		ref={config["reference"]}
 	output:
@@ -47,7 +47,7 @@ rule snp_calling:
 	log:
 		"logs/gatk/{dataset}.snp_calling.log"
 	shell:
-		"../scripts/HaplotypeCaller.sh {input.bamlist} {input.ref} {params.region} {params.prefix} 2> {log}"
+		"bash ~/scripts/HaplotypeCaller.sh {input.bamlist} {input.ref} {params.region} {params.prefix} 2> {log}"
 
 rule vcf_filtering:
 	message: """##### Running vcftools... #####"""
@@ -60,12 +60,13 @@ rule vcf_filtering:
 		{config["threads"]}
 	params:
 		prefix="{dataset}.{region}",
-		minDP={config["minDP"]}
+		minDP={config["minDP"]},
+		maxDP={config["maxDP"]}
 	log:
 		"logs/gatk/{dataset}.vcf_filtering.log"
 	shell:
 		"vcftools --vcf {input.vcf} --recode --recode-INFO-all --out {params.prefix} "
-		"--minDP {paramns.minDP} --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 "
+		"--minDP {paramns.minDP} --maxDP {paramns.maxDP} --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 "
 		"--remove-indels"
 
 rule concat_vcf:
@@ -90,7 +91,7 @@ rule vcf_stats:
 	params:
 		prefix={config["dataset"]}
 	shell:
-		"03-07-2022vcfStats.sh {input} {params.prefix} 2> {log}"
+		"bash ~/scripts/vcfStats.sh {input} {params.prefix} 2> {log}"
 		
 #gatk VariantFiltration -V {input.vcf} \
 #ls-R {input.ref} \

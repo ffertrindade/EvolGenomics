@@ -25,13 +25,15 @@ We'll use two different approaches to identify informative sites from the above 
 The bam files are avaiable in a shared folder on the server. Download the scripts from our repo:
 ```
 mkdir scripts
-wget https://github.com/ffertrindade/EvolGenomics/main/day_8/scripts
+curl -o HaplotypeCaller.sh https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/day_8/scripts/HaplotypeCaller.sh
+curl -o vcfStats.sh https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/day_8/scripts/vcfStats.sh
+cd ~
 ```
 Estimate the genotype likelihoods using [ANGSD](http://www.popgen.dk/angsd/index.php/ANGSD):
 ```
 mkdir gl
 cd gl
-angsd -bam ../leopard_data/leopard_17ind.bamlist -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -minInd 13 -setMaxDepth 85 -out leopard_17ind -P 4
+angsd -bam ~/leopard_data/leopard_17ind.bamlist -GL 2 -doMajorMinor 1 -doMaf 1 -doGlf 2 -doCounts 0 -minMapQ 24 -minQ 24 -SNP_pval 2e-6 -minMaf 0.05 -minInd 17 -setMaxDepth 100 -out leopard_17ind -P 4
 cd ~
 ```
 Below you can see how a beagle and maf file look like:
@@ -40,14 +42,14 @@ Perform SNP calling using [GATK](https://gatk.broadinstitute.org/hc/en-us)
 ```
 mkdir gatk
 cd gatk
-../scripts/HaplotypeCaller.sh ../leopard_data/leopard_17ind.bamlist ../leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:1-20000000" leopard_17ind
-../scripts/HaplotypeCaller.sh ../leopard_data/leopard_17ind.bamlist ../leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:20000000-40000000" leopard_17ind
-../scripts/HaplotypeCaller.sh ../leopard_data/leopard_17ind.bamlist ../leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:40000000-63494689" leopard_17ind
-vcftools --vcf leopard_17ind.NC_018736.3-1-20000000.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-1-20000000 --minDP 5 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
+bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:1-20000000" leopard_17ind
+bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:20000000-40000000" leopard_17ind
+bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard_data/felcat9_chrE1.fasta.gz "NC_018736.3:40000000-63494689" leopard_17ind
+vcftools --vcf leopard_17ind.NC_018736.3-1-20000000.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-1-20000000 --minDP 5 --maxDP 15 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 vcftools --vcf leopard_17ind.NC_018736.3-20000000-40000000.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-20000000-40000000 --minDP 5 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 vcftools --vcf leopard_17ind.NC_018736.3-40000000-63494689.vcf --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-40000000-63494689 --minDP 5 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 bcftools concat -o leopard_17ind.filtered.vcf leopard_17ind.*.filtered.vcf
-../scripts/vcfStats.sh leopard_17ind.filtered.vcf leopard_17ind
+bash ~/scripts/vcfStats.sh leopard_17ind.filtered.vcf leopard_17ind
 ```
 
 ### Estimates of population structure and admixture
