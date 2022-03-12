@@ -66,13 +66,17 @@ cd ngsadmix
 NGSadmix -likes ../gl/leopard_17ind.beagle.gz -K 2 -P 4 -seed 1 -o leopard_17ind_k2
 # Use the same command line above to run for K up to 6
 ```
-Now we'll use a R script to plot our results. This script will plot the results ordering the individuals by: (i);(ii);(iii);(iv). Observing thes plots can batter help to understand the population structure. Remember to plot the results for each K and, also as an excercise, compare the results and observe which K better describe our data based in the likelihood and biological interpretation. 
+Now we'll use a R script to plot our results. This script will plot the results ordering by individuals name, populations, latitude and longitude (see bellow). Observing these plots can better help to understand the population structure. Remember to plot the results for each K and, also as an excercise, compare the results and observe which K better describe our data based in the likelihood and biological interpretation. 
 ```
 mkdir plots
 Rscript ~/scripts/plotNGSadmix.R leopard_17ind_k2.qopt 2 ~/leopard_data/data/leopard_population_metadata.csv 
 # Use the same command line above to run for K up to 6
 ```
 Bellow are how the results for K2 should look like:
+![ind](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.ordi.png)
+![pop](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.ordp.png)
+![lat](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k6.lat.png)
+![lon](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.lon.png)
 
 ## Day 9: Adaptive evolution and demographic history
 Today you are going to learn how to perform analyses of natural selection on complete genomes and how to infer historical demography. We're going to use as example the data from [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
