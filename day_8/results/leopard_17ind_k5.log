@@ -1,0 +1,9 @@
+Input: lname=../gl/leopard_17ind.beagle.gz nPop=5, fname=(null) qname=(null) outfiles=leopard_17ind_k5
+Setup: seed=1 nThreads=4 method=1
+Convergence: maxIter=2000 tol=0.000010 tolLike50=0.100000 dymBound=0
+Filters: misTol=0.050000 minMaf=0.050000 minLrt=0.000000 minInd=0
+Input file has dim: nsites=560519 nind=17
+Input file has dim (AFTER filtering): nsites=560519 nind=17
+	[ALL done] cpu-time used =  2432.91 sec
+	[ALL done] walltime used =  718.00 sec
+best like=-4956728.181187 after 524 iterations
