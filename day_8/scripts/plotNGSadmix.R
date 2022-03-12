@@ -30,8 +30,9 @@ lon <- popinfo$longitude
 q <- read.table(qopt)
 
 # Plot the results ordered by individual name
-png(filename=paste("plots/",name, "_k",k,".ordi.png", sep = ""), width=500, height=250)
+png(filename=paste("plots/",name, ".ordi.png", sep = ""), width=500, height=250)
 ylab=paste("Admixture proportions (K=",k,")", sep = "")
+main=paste(name,"(ordered by individuals name)", sep = " ")
 par(mar=c(5,4,1,1))
 barplot(t(q)[,order(ind)],
         col=c('darkred','blue4','darkgreen','orange','black','gray','pink'),
@@ -40,13 +41,14 @@ barplot(t(q)[,order(ind)],
         names=ind[order(ind)],
         las=2,
         ylab=ylab,
-        main=name,
+        main=main,
         cex.axis=1, 
         cex.names=0.7)
 dev.off()
 
 # Plot the results ordered by population name
-png(filename=paste("plots/",name, "_k",k,".ordp.png", sep = ""), width=500, height=500)
+png(filename=paste("plots/",name, ".ordp.png", sep = ""), width=500, height=500)
+main=paste(name,"(ordered by populations name)", sep = " ")
 par(mar=c(9,4,1,1))
 barplot(t(q)[,order(pop)],
         col=c('darkred','blue4','darkgreen','orange','black','gray','pink'),
@@ -55,7 +57,7 @@ barplot(t(q)[,order(pop)],
         las=2,
         names=ind[order(pop)],
         ylab=ylab,
-        main=name,
+        main=main,
         cex.axis=1, 
         cex.names=0.7)
 text(tapply(0.5:length(pop),pop[order(pop)],mean),-0.3,unique(pop[order(pop)]),xpd=T, srt=90, cex=0.75)
@@ -63,7 +65,8 @@ abline(v=cumsum(sapply(unique(pop[order(pop)]),function(x){sum(pop[order(pop)]==
 dev.off()
 
 # Plot the results ordered by latitude
-png(filename=paste("plots/",name, "_k",k,".lat.png", sep = ""), width=500, height=250)
+png(filename=paste("plots/",name, ".lat.png", sep = ""), width=500, height=250)
+main=paste(name,"(ordered by latitude)", sep = " ")
 par(mar=c(5,4,1,1))
 barplot(t(q)[,order(lat, decreasing = TRUE)],
         col=c('darkred','blue4','darkgreen','orange','black','gray','pink'),
@@ -72,13 +75,14 @@ barplot(t(q)[,order(lat, decreasing = TRUE)],
         las=2,
         names=ind[order(lat, decreasing = TRUE)],
         ylab=ylab,
-        main=name,
+        main=main,
         cex.axis=1, 
         cex.names=0.7)
 dev.off()
 
 # Plot the results ordered by longitude
-png(filename=paste("plots/",name, "_k",k,".lon.png", sep = ""), width=500, height=250)
+png(filename=paste("plots/",name, ".lon.png", sep = ""), width=500, height=250)
+main=paste(name,"(ordered by longitude)", sep = " ")
 par(mar=c(5,4,1,1))
 barplot(t(q)[,order(lon, decreasing = TRUE)],
         col=c('darkred','blue4','darkgreen','orange','black','gray','pink'),
@@ -87,7 +91,7 @@ barplot(t(q)[,order(lon, decreasing = TRUE)],
         las=2,
         names=ind[order(lon, decreasing = TRUE)],
         ylab=ylab,
-        main=name,
+        main=main,
         cex.axis=1, 
         cex.names=0.7)
 dev.off()
