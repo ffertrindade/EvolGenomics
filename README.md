@@ -25,6 +25,7 @@ We'll use two different approaches to identify informative sites from the above 
 The bam files are avaiable in a shared folder on the server. Download the scripts from our repo:
 ```
 mkdir scripts
+cd scripts
 curl -o HaplotypeCaller.sh https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/day_8/scripts/HaplotypeCaller.sh
 curl -o vcfStats.sh https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/day_8/scripts/vcfStats.sh
 cd ~
@@ -56,12 +57,23 @@ cd ~
 ```
 
 ### Estimates of population structure and admixture
+Now that we have SNPs and genotype likelihoods, the main exercise of today is explore genomic structure within our dataset. We're going to observe this by using [NGSadmix](http://www.popgen.dk/software/index.php/NgsAdmix), which will give admixture proportions for each individual, and [PCAngsd](http://www.popgen.dk/software/index.php/PCAngsd), which will give (among other possible things) a matrix of clustering based in our dataset. Both of them use genotype likelihoods as input. 
+
+Bellow is the command line to run NGSadmix for 2 ancestral populations. The analyses will create three files: (i) *leopard_17ind_k2.qopt*, which contains the ancestry proportions and should be used to plot the results; (ii) *leopard_17ind_k2.fopt.gz*, which contains calculated frequencies used to estimate the admixture proportions; (iii) *leopard_17ind_k2.log*, which contains usefull informations about the run (number of used sites, likelihood, etc). As an exercise, you should run it for K 2-6, compare the results and observe which K better describe our data based in the likelihood.
 ```
 mkdir ngsadmix
 cd ngsadmix
 NGSadmix -likes ../gl/leopard_17ind.beagle.gz -K 2 -P 4 -seed 1 -o leopard_17ind_k2
 # Use the same command line above to run for K up to 6
 ```
+Now we'll use a R script to plot our results. This script will plot the results ordering the individuals by: (i);(ii);(iii);(iv). Observing thes plots can batter help to understand the population structure. Remember to plot the results for each K and, also as an excercise, compare the results and observe which K better describe our data based in the likelihood and biological interpretation. 
+```
+mkdir plots
+Rscript ~/scripts/plotNGSadmix.R leopard_17ind_k2.qopt 2 ~/leopard_data/data/leopard_population_metadata.csv 
+# Use the same command line above to run for K up to 6
+```
+Bellow are how the results for K2 should look like:
+
 ## Day 9: Adaptive evolution and demographic history
 Today you are going to learn how to perform analyses of natural selection on complete genomes and how to infer historical demography. We're going to use as example the data from [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
 
