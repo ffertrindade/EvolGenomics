@@ -1,5 +1,5 @@
 # EvolGenomics
-Tutorial of the practical activities for 3rd module *Evolutionary Genomics*  of the curse **Bioinformática y Genómica para la Biodiversidad**.
+Tutorial of the practical activities for the 3rd module (Evolutionary Genomics) of the course **'Bioinformática y Genómica para la Biodiversidad'**.
 
 Module instructors:
 - **Dr. Eduardo Eizirik**, Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS), Brasil
@@ -7,13 +7,13 @@ Module instructors:
 - **Dr. Henrique Vieira Figueiró**, George Mason University, USA
 - **Msc. Fernanda Trindade**, Pontifícia Universidade Católica do Rio Grande do Sul (PUCRS), Brasil
 
-## Day 7: Phylogenomics
-Today you are going to learn how to use complete genomes to reconstruct the groups phylogeny, to evaluate genealogical discordances and explore the role of hybridization in group's history. We're going to use as example the data from [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
+## 3-1 Phylogenomics
+Today you are going to learn how to use complete genomes to reconstruct the phylogeny of several species, to evaluate genealogical discordance among genomic segments, and to explore the role of hybridization in the group's history. We're going to use as an example the data on wild cats reported by [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
 
 ### Construct genomic windows
 ### Phylogenetic inference based on whole-genome sequences
 
-## Day 8: Population Genomics
+## 3-2 Population Genomics
 Today you are going to learn how to perform basic populational analyses using complete genomes at low depth, including calling, diversity and homozygosity estimates, population structure and admixture. We're going to use as example the data from [Pecnerova et al., 2021](https://doi.org/10.1016/j.cub.2021.01.064).
 
 The data we'll be using are **17 leopard individuals from 6 populations across Africa** (see [metadata](https://github.com/ffertrindade/EvolGenomics/main/day_8/data/leopard_population_metadata.csv)). These data had been previouslly subsampled and mapped to domestic cat [felCat9](https://www.ncbi.nlm.nih.gov/assembly/GCF_000181335.3) **chromosome E1**, and the resulted [bam](https://github.com/ffertrindade/EvolGenomics/main/day_8/data/bam) files are which we'll be using for this session. Bellow you can see basic stats of mapping quality and depth distribution for each individual along the chrE1. You can check the detailed workflow [here](https://github.com/ffertrindade/EvolGenomics/main/day_8/workflows/mapping).
@@ -75,10 +75,10 @@ Rscript ~/scripts/plotNGSadmix.R leopard_17ind_k2.qopt 2 ~/leopard_data/data/leo
 Bellow are how the results for K2 should look like:
 ![ind](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.ordi.png)
 ![pop](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.ordp.png)
-![lat](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k6.lat.png)
+![lat](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.lat.png)
 ![lon](https://github.com/ffertrindade/EvolGenomics/blob/main/day_8/results/plots/leopard_17ind_k2.lon.png)
 
-## Day 9: Adaptive evolution and demographic history
+## 3-3 Adaptive evolution
 Today you are going to learn how to perform analyses of natural selection on complete genomes and how to infer historical demography. We're going to use as example the data from [Li et al., 2019](https://academic.oup.com/mbe/article/36/10/2111/5518928).
 
 ### Investigating adaptive evolution based on genome-wide datasets
