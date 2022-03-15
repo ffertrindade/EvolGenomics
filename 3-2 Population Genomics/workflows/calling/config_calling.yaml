@@ -1,0 +1,30 @@
+samples:
+ - ERR5056109
+ - ERR5056110
+ - ERR5056113
+ - ERR5056115
+ - ERR5056116
+ - ERR5056119
+ - ERR5056122
+ - ERR5056129
+ - ERR5056132
+ - ERR5056133
+ - ERR5056138
+ - ERR5056142
+ - ERR5056143
+ - ERR5056145
+ - ERR5056154
+ - ERR5056155
+ - ERR5056158
+reference: /home/courses/instructor01/leopard_data/felcat9_chrE1.fasta.gz
+bamlist: /home/courses/instructor01/leopard_data/leopard_17ind.bamlist
+dataset: leopard_17ind
+regions:
+ - NC_018736.3:1-20000000
+ - NC_018736.3:20000000-40000000
+ - NC_018736.3:40000000-63494689
+threads: 3
+minDP: 3 #vcf_filtering rule
+maxDP: 8 #vcf_filtering rule
+minInd: 17 #genotype_likelihoods rule
+MaxDepth: 100 #genotype_likelihoods rule
