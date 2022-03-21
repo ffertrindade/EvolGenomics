@@ -1,0 +1,40 @@
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0500  0.1667  0.2971  0.3176  0.5000  0.5000 
+
+-- Column specification -----------------------------------------------------------------------------------
+cols(
+  ind = col_character(),
+  nsites = col_double(),
+  depth = col_double()
+)
+
+null device 
+          1 
+
+-- Column specification -----------------------------------------------------------------------------------
+cols(
+  ind = col_character(),
+  ndata = col_double(),
+  nfiltered = col_double(),
+  nmiss = col_double(),
+  fmiss = col_double()
+)
+
+null device 
+          1 
+
+-- Column specification -----------------------------------------------------------------------------------
+cols(
+  ind = col_character(),
+  homObs = col_double(),
+  homExp = col_double(),
+  nsites = col_double(),
+  f = col_double()
+)
+
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
