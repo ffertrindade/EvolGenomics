@@ -2,7 +2,7 @@
 
 ## Plot PCA from plink results
 ## Adapted from https://speciationgenomics.github.io/pca/ for the 3rd module Evolutionary Genomics of the curse Bioinformática y Genómica para la Biodiversidad
-## Fernanda T. 03-1-2022
+## Fernanda T. 03-20-2022
 
 ## loading libraries and reading arguments
 args <- commandArgs(T)

@@ -13,10 +13,7 @@ if (length(args)!=3) {
 qopt <- args[1]
 k <- args[2]
 metadata <- args[3]
-
 rm(args)
-
-#setwd("G:/OneDrive - PUCRS - BR/dev/EvolGenomics/day_8/results")
 
 # Get ID and pop info for each individual
 name <- gsub(".qopt","",qopt)
