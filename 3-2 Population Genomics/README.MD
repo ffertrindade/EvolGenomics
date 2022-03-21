@@ -13,6 +13,7 @@ cd scripts
 curl -o HaplotypeCaller.sh https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/HaplotypeCaller.sh
 curl -o vcfStats.sh https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/scripts/vcfStats.sh
 curl -o plotNGSadmix.R https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/plotNGSadmix.R
+curl -o vcfStats.R https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/vcfStats.R
 cd ~
 ```
 
@@ -76,6 +77,7 @@ cd ~
 mkdir gatk
 cd gatk
 curl -o leopard_17ind.filtered.vcf.gz https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/leopard_17ind.filtered.vcf.gz
+gunzip leopard_17ind.filtered.vcf.gz
 cd ~
 ```
 
@@ -92,6 +94,21 @@ Now we'll use a R script to plot our results. This script will plot the results 
 mkdir plots
 Rscript ~/scripts/plotNGSadmix.R leopard_17ind_k2.qopt 2 ~/leopard_data/data/leopard_population_metadata.csv 
 # Use the same command line above to run for K up to 6
+cd ~
 ```
 Bellow are how the results for K2 ordered by population should look like:
 ![pop](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/ngsadmix/plots/leopard_17ind_k2.ordp.png)
+
+We can also analyse the VCF file concerning the structure and clustering. For that we'll use PLINK and Admixture.
+
+```
+cd gatk
+plink --vcf leopard_17ind.filtered.vcf --double-id --allow-extra-chr --set-missing-var-ids @:# --indep-pairwise 10 10 0.9 --out leopard_17ind.filtered.pruned
+cd ~
+mkdir pca
+cd pca
+plink --vcf ../gatk/leopard_17ind.filtered.vcf --double-id --allow-extra-chr --set-missing-var-ids @:# --make-bed --pca --out leopard_17ind
+plink --vcf ../gatk/leopard_17ind.filtered.vcf --double-id --allow-extra-chr --set-missing-var-ids @:# --extract ../gatk/leopard_17ind.filtered.pruned.prune.in --make-bed --pca --out leopard_17ind.filtered.pruned
+mkdir plots
+Rscript ~/scripts/plotPCA.R leopard_17ind ~/leopard_data/data/leopard_population_metadata.csv
+```

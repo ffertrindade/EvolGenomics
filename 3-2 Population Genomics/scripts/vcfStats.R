@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ## Plot vcfStats results
-## Adapted from https://github.com/ffertrindade/proc_tools for the 3rd module Evolutionary Genomics of the curse Bioinformática y Genómica para la Biodiversidad
+## Adapted from https://speciationgenomics.github.io/filtering_vcfs/ for the 3rd module Evolutionary Genomics of the curse Bioinformática y Genómica para la Biodiversidad
 ## Fernanda T. 03-1-2022
 
 ## loading libraries and reading arguments
 args <- commandArgs(T)
-if (length(args)!=) {
+if (length(args)!=1) {
   stop("Usage: Rscript ~/scripts/vcfStats.R prefix", call.=FALSE)
 }
 
@@ -118,7 +118,7 @@ dev.off()
 ## Heterozygosity and inbreeding coefficient per individual
 filename <- paste(input, ".het", sep = "")
 ind_het <- read_delim(filename, delim = "\t",
-           col_names = c("ind","ho", "he", "nsites", "f"), skip = 1)
+           col_names = c("ind","homObs", "homExp", "nsites", "f"), skip = 1)
 
 filename <- paste(filename, ".f.png", sep = "")
 png(filename = filename, width = 300, height = 300)
@@ -126,14 +126,14 @@ a <- ggplot(ind_het, aes(f)) + geom_histogram(fill = "dodgerblue1", colour = "bl
 a + theme_light()
 dev.off()
 
-filename <- paste(input, ".het.ho.png", sep = "")
+filename <- paste(input, ".het.homObs.png", sep = "")
 png(filename = filename, width = 300, height = 300)
-a <- ggplot(ind_het, aes(ho)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
-a + theme_light()
+a <- ggplot(ind_het, aes(homObs/nsites)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
+a + xlim(0, 1) +theme_light()
 dev.off()
 
-filename <- paste(input, ".het.he.png", sep = "")
+filename <- paste(input, ".het.homExp.png", sep = "")
 png(filename = filename, width = 300, height = 300)
-a <- ggplot(ind_het, aes(he)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
-a + theme_light()
+a <- ggplot(ind_het, aes(homExp/nsites)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
+a + xlim(0, 1) + theme_light()
 dev.off()
