@@ -14,6 +14,8 @@ curl -o HaplotypeCaller.sh https://raw.githubusercontent.com/ffertrindade/EvolGe
 curl -o vcfStats.sh https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/scripts/vcfStats.sh
 curl -o plotNGSadmix.R https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/plotNGSadmix.R
 curl -o vcfStats.R https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/vcfStats.R
+curl -o plotAdmixture.R https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/plotAdmixture.R
+curl -o plotCVerror.R https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-2%20Population%20Genomics/scripts/plotCVerror.R
 cd ~
 ```
 
@@ -99,16 +101,31 @@ cd ~
 Bellow are how the results for K2 ordered by population should look like:
 ![pop](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/ngsadmix/plots/leopard_17ind_k2.ordp.png)
 
-We can also analyse the VCF file concerning the structure and clustering. For that we'll use PLINK and Admixture.
 
+We can also analyse the VCF file concerning the structure and clustering. For that we'll use PLINK and Admixture.
 ```
 cd gatk
+# finding linked sites
 plink --vcf leopard_17ind.filtered.vcf --double-id --allow-extra-chr --set-missing-var-ids @:# --indep-pairwise 10 10 0.9 --out leopard_17ind.filtered.pruned
 cd ~
 mkdir pca
 cd pca
+# pca analysis without filtering linked sites
 plink --vcf ../gatk/leopard_17ind.filtered.vcf --double-id --allow-extra-chr --set-missing-var-ids @:# --make-bed --pca --out leopard_17ind
+# pca analysis filtering linked sites
 plink --vcf ../gatk/leopard_17ind.filtered.vcf --double-id --allow-extra-chr --set-missing-var-ids @:# --extract ../gatk/leopard_17ind.filtered.pruned.prune.in --make-bed --pca --out leopard_17ind.filtered.pruned
 mkdir plots
 Rscript ~/scripts/plotPCA.R leopard_17ind ~/leopard_data/data/leopard_population_metadata.csv
+cd ~
+mkdir admixture
+cd admixture
+awk '{$1="0";print $0}' ../pca/leopard_17ind.filtered.pruned.bim > leopard_17ind.filtered.pruned.bim
+cp ../pca/leopard_17ind.filtered.pruned.bed ../pca/leopard_17ind.filtered.pruned.fam .
+admixture --cv leopard_17ind.filtered.pruned.bed 2 > leopard_17ind.filtered.pruned.k2.log
+# Use the same command line above to run for K up to 6
+# retrieve vc error for all runs
+grep "CV error" leopard_17ind.filtered.pruned.k*.log | awk '{print $3,$4}' | sed 's/[(|)|=|:]//g' > leopard_17ind.filtered.pruned.cverror.txt
+mkdir plots
+Rscript ~/scripts/plotCVerror.R cverror
+Rscript ~/scripts/plotAdmixture.R
 ```
