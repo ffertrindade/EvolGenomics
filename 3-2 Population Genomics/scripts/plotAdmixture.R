@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Plot PCA from plink results
+## Plot Admixture results
 ## Adapted from https://speciationgenomics.github.io/ADMIXTURE/ for the 3rd module Evolutionary Genomics of the curse Bioinformática y Genómica para la Biodiversidad
 ## Fernanda T. 03-20-2022
 
@@ -18,7 +18,7 @@ metadata <- args[3] # ordered acording eigenvec file
 #metadata <- "../../data/leopard_17ind_metadata.csv"
 rm(args)
 
-library(ggplot)
+library(ggplot2)
 
 ## Get ID and pop info for each individual
 popinfo <- read.csv(metadata, sep = ",", header = TRUE)

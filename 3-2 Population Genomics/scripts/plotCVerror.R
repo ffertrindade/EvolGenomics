@@ -1,22 +1,22 @@
 #!/bin/bash
 
-## Plot PCA from plink results
+## Plot CV error of Admixture analyses
 ## Adapted from https://speciationgenomics.github.io/ADMIXTURE/ for the 3rd module Evolutionary Genomics of the curse Bioinformática y Genómica para la Biodiversidad
 ## Fernanda T. 03-20-2022
 
 ## loading libraries and reading arguments
 args <- commandArgs(T)
-if (length(args)!=2) {
+if (length(args)!=1) {
   stop("Usage: Rscript ~/scripts/plotCVerror.R cverror", call.=FALSE)
 }
 
-cverror <- args[1]
+input <- args[1]
 rm(args)
 
-library(ggplot)
+library(ggplot2)
 
 ## Read CV error file file
-cv_error <- read.csv(cverror, sep = " ", header = FALSE)
+cv_error <- read.csv(input, sep = " ", header = FALSE)
 
 ## plot cv error
 png(filename=paste("plots/", input, ".cverror.png", sep = ""), width=500, height=500)
