@@ -2,7 +2,7 @@ PLINK v1.90b6.21 64-bit (19 Oct 2020)
 Options in effect:
   --allow-extra-chr
   --double-id
-  --extract ../gatk/leopard_17ind.filtered.pruned.prune.in
+  --extract ../gatk/leopard_17ind.filtered.prune.in
   --make-bed
   --out leopard_17ind.filtered.pruned
   --pca
@@ -11,9 +11,9 @@ Options in effect:
 
 Hostname: leftraru2
 Working directory: /home/courses/instructor01/pca
-Start time: Mon Mar 21 12:04:12 2022
+Start time: Tue Mar 22 12:56:12 2022
 
-Random number seed: 1647875052
+Random number seed: 1647964572
 64287 MB RAM detected; reserving 32143 MB for main workspace.
 --vcf: leopard_17ind.filtered.pruned-temporary.bed +
 leopard_17ind.filtered.pruned-temporary.bim +
@@ -36,4 +36,4 @@ leopard_17ind.filtered.pruned.eigenvec .
 --make-bed to leopard_17ind.filtered.pruned.bed +
 leopard_17ind.filtered.pruned.bim + leopard_17ind.filtered.pruned.fam ... done.
 
-End time: Mon Mar 21 12:04:12 2022
+End time: Tue Mar 22 12:56:12 2022
