@@ -12,9 +12,6 @@ if (length(args)!=2) {
 
 input <- args[1]
 metadata <- args[2] # ordered acording eigenvec file
-#setwd("G:/OneDrive - PUCRS - BR/dev/EvolGenomics/3-2 Population Genomics/results/pca")
-#input <- "leopard_17ind"
-#metadata <- "../../data/leopard_17ind_metadata.csv"
 rm(args)
 
 library(tidyverse)

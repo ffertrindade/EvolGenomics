@@ -19,7 +19,7 @@ library(ggplot2)
 cv_error <- read.csv(input, sep = " ", header = FALSE)
 
 ## plot cv error
-png(filename=paste("plots/", input, ".cverror.png", sep = ""), width=500, height=500)
+png(filename=paste("plots/", input, ".png", sep = ""), width=500, height=500)
 a <- ggplot(cv_error, aes(V1, V2)) + geom_bar(stat = "identity")
 a + ylab("CV error") + xlab("K values") + theme_light()
 dev.off()
