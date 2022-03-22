@@ -7,7 +7,7 @@
 ## loading libraries and reading arguments
 args <- commandArgs(T)
 if (length(args)!=1) {
-  stop("Usage: Rscript ~/scripts/plotCVerror.R cverror", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/plotCVerror.R cverror_file", call.=FALSE)
 }
 
 input <- args[1]

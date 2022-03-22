@@ -7,7 +7,7 @@
 # Reading arguments
 args <- commandArgs(T)
 if (length(args)!=3) {
-  stop("Usage: Rscript ~/scripts/plotNGSadmix.R qopt_file k_num metadata", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/plotNGSadmix.R prefix_qopt_file k_num metadata", call.=FALSE)
 }
 
 qopt <- args[1]

@@ -7,7 +7,7 @@
 ## loading libraries and reading arguments
 args <- commandArgs(T)
 if (length(args)!=3) {
-  stop("Usage: Rscript ~/scripts/plotAdmixture.R prefix k_num metadata", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/plotAdmixture.R prefix_q_file k_num metadata", call.=FALSE)
 }
 
 input <- args[1]

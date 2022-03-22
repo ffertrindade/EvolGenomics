@@ -7,17 +7,17 @@
 ## loading libraries and reading arguments
 args <- commandArgs(T)
 if (length(args)!=2) {
-  stop("Usage: Rscript ~/scripts/plotPCA.R prefix metadata", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/plotPCA.R prefix_plink_file metadata", call.=FALSE)
 }
 
 input <- args[1]
 metadata <- args[2] # ordered acording eigenvec file
 rm(args)
 
-library(tidyverse)
+library(ggplot2)
 
 ## read in data
-pca <- read_table2(paste(input,".eigenvec",sep=""), col_names = FALSE)
+pca <- read.csv(paste(input,".eigenvec",sep=""), sep = " ", header = FALSE)
 eigenval <- scan((paste(input,".eigenval",sep="")))
 popinfo <- read.csv(metadata, sep = ",", header = TRUE)
 
@@ -29,7 +29,7 @@ names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 # set populations
 pops <- popinfo$Population
-pca <- as.tibble(data.frame(pca, pops))
+pca <- data.frame(pca, pops)
 
 ## convert to percentage variance explained
 pve <- data.frame(PC = 1:17, pve = eigenval/sum(eigenval)*100)
