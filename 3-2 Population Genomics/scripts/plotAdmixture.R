@@ -6,16 +6,13 @@
 
 ## loading libraries and reading arguments
 args <- commandArgs(T)
-if (length(args)!=2) {
+if (length(args)!=3) {
   stop("Usage: Rscript ~/scripts/plotAdmixture.R prefix k_num metadata", call.=FALSE)
 }
 
 input <- args[1]
 k <- args[2]
 metadata <- args[3] # ordered acording eigenvec file
-#setwd("G:/OneDrive - PUCRS - BR/dev/EvolGenomics/3-2 Population Genomics/results/pca")
-#input <- "leopard_17ind"
-#metadata <- "../../data/leopard_17ind_metadata.csv"
 rm(args)
 
 library(ggplot2)
@@ -32,7 +29,7 @@ q <- read.table(paste(input, ".", k, ".Q", sep = ""))
 ordp <- order(pop)
 
 # plotting according individuals
-png(filename=paste(input, ".", k, ".ordi.png", sep = ""), width=500, height=250)
+png(filename=paste("plots/", input, ".", k, ".ordi.png", sep = ""), width=500, height=250)
 ylab=paste("Admixture proportions (K=",k,")", sep = "")
 main=paste(input,"(ordered by individuals name)", sep = " ")
 par(mar=c(5,4,1,1))
@@ -47,7 +44,7 @@ barplot(t(q)[,order(ind)],
 dev.off()
 
 ## plotting according population
-png(filename=paste(input, ".", k, ".ordp.png", sep = ""), width=500, height=500)
+png(filename=paste("plots/", input, ".", k, ".ordp.png", sep = ""), width=500, height=500)
 ylab=paste("Admixture proportions (K=",k,")", sep = "")
 main=paste(input,"(ordered by individuals name)", sep = " ")
 par(mar=c(9,4,1,1))

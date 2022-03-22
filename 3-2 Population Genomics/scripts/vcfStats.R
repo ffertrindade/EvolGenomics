@@ -11,7 +11,6 @@ if (length(args)!=1) {
 }
 
 input <- args[1]
-#input <- "allSamples_134ind_batch004.subset"
 rm(args)
 
 library(tidyverse)
