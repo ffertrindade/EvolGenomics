@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Construct the command line to HaplotypeCaller for several samples and several target regions
+## Construct the command line to run HaplotypeCaller for different samples, references and target regions
 ## Adapted from https://github.com/ffertrindade/proc_tools for the 3rd module Evolutionary Genomics of the curse Bioinformática y Genómica para la Biodiversidad
 ## Fernanda T. 03-07-2022
 
@@ -10,9 +10,9 @@ if [[ $# != 4 ]]; then
         exit 1
 fi
 
-BAMLIST=($(cat $1)) # List of bam files, ex. leopard_17ind.bamlist
-REFERENCE=$2 # Reference file, ex. felcat9_chrE1.fasta.gz
-REGION=$3 # Region in the reference genome, ex. NC_018736.3:0-20000000
+BAMLIST=($(cat $1)) # List of bam files, ex. ~/leopard_data/leopard_17ind.bamlist
+REFERENCE=$2 # Reference file, ex. ~/leopard_data/felcat9_chrE1.fasta
+REGION=$3 # Region in the reference genome, ex. "NC_018736.3:1-10000000"
 DATASET=$4 # Name of the dataset, ex. leopard_17ind
 
 ## creating command-line
