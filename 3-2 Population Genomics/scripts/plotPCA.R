@@ -10,8 +10,8 @@ if (length(args)!=2) {
   stop("Usage: Rscript ~/scripts/plotPCA.R prefix_plink_file metadata", call.=FALSE)
 }
 
-input <- args[1]
-metadata <- args[2] # ordered acording eigenvec file
+input <- args[1] # Prefix of .eigenvec file name, ex. leopard_17ind.filtered.pruned
+metadata <- args[2] # Metadata ordered acording eigenvec file, ~/leopard_data/leopard_17ind_metadata.csv
 rm(args)
 
 library(ggplot2)

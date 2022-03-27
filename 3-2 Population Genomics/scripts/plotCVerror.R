@@ -10,7 +10,7 @@ if (length(args)!=1) {
   stop("Usage: Rscript ~/scripts/plotCVerror.R cverror_file", call.=FALSE)
 }
 
-input <- args[1]
+input <- args[1] # CV error file name, ex. leopard_17ind.filtered.pruned, ex. leopard_17ind.filtered.pruned.cverror.txt
 rm(args)
 
 library(ggplot2)

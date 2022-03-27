@@ -10,9 +10,9 @@ if (length(args)!=3) {
   stop("Usage: Rscript ~/scripts/plotAdmixture.R prefix_q_file k_num metadata", call.=FALSE)
 }
 
-input <- args[1]
-k <- args[2]
-metadata <- args[3] # ordered acording eigenvec file
+input <- args[1] # prefix of Q file name, ex. leopard_17ind.filtered.pruned
+k <- args[2] # Number of K from input Q file, ex. 2
+metadata <- args[3] # Metadata ordered acording eigenvec file, ~/leopard_data/leopard_17ind_metadata.csv
 rm(args)
 
 library(ggplot2)
