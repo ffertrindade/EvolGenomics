@@ -10,7 +10,7 @@ if (length(args)!=1) {
   stop("Usage: Rscript ~/scripts/vcfStats.R prefix_vcf_file", call.=FALSE)
 }
 
-input <- args[1]
+input <- args[1] # Prefix name of input VCF file, ex. leopard_17ind.subset
 rm(args)
 
 library(tidyverse)
@@ -37,22 +37,6 @@ a <- ggplot(var_depth, aes(mean_depth)) + geom_density(fill = "dodgerblue1", col
 a + theme_light() + xlim(0, 10)
 dev.off()
 
-filename <- paste(input, ".ldepth.mean.sum.txt", sep = "")
-sink(filename)
-print(summary(var_depth$mean_depth))
-
-filename <- paste(filename, "2.png", sep = "")
-png(filename = filename, width = 300, height = 300)
-a <- ggplot(var_depth, aes(mean_depth)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
-a + theme_light() + xlim(0, 2)
-dev.off()
-
-filename <- paste(filename, "3.png", sep = "")
-png(filename = filename, width = 300, height = 300)
-a <- ggplot(var_depth, aes(var_depth)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
-a + theme_light() + xlim(0, 2)
-dev.off()
-
 ## Variant missingness
 filename <- paste(input, ".lmiss", sep = "")
 var_miss <- read_delim(filename, delim = "\t",
@@ -61,16 +45,6 @@ var_miss <- read_delim(filename, delim = "\t",
 filename <- paste(filename, ".png", sep = "")
 png(filename = filename, width = 300, height = 300)
 a <- ggplot(var_miss, aes(fmiss)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
-a + theme_light()
-dev.off()
-
-filename <- paste(input, ".lmiss.sum.txt", sep = "")
-sink(filename)
-print(summary(var_miss$fmiss))
-
-filename <- paste(input, ".lmiss2.png", sep = "")
-png(filename = filename, width = 300, height = 300)
-a <- ggplot(var_miss, aes(fmiss)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3)
 a + theme_light()
 dev.off()
 
@@ -87,10 +61,6 @@ png(filename = filename, width = 300, height = 300)
 a <- ggplot(var_freq, aes(maf)) + geom_density(fill = "dodgerblue1", colour = "black", alpha = 0.3)
 a + theme_light()
 dev.off()
-
-filename <- paste(input, ".frq.sum.txt", sep = "")
-sink(filename)
-print(summary(var_freq$maf))
 
 ## Mean depth per individual
 filename <- paste(input, ".idepth", sep = "")
@@ -114,7 +84,7 @@ a <- ggplot(ind_miss, aes(fmiss)) + geom_histogram(fill = "dodgerblue1", colour 
 a + theme_light()
 dev.off()
 
-## Heterozygosity and inbreeding coefficient per individual
+## Homozygosity and inbreeding coefficient per individual
 filename <- paste(input, ".het", sep = "")
 ind_het <- read_delim(filename, delim = "\t",
            col_names = c("ind","homObs", "homExp", "nsites", "f"), skip = 1)
