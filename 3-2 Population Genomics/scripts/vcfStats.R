@@ -7,7 +7,7 @@
 ## loading libraries and reading arguments
 args <- commandArgs(T)
 if (length(args)!=1) {
-  stop("Usage: Rscript ~/scripts/vcfStats.R prefix", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/vcfStats.R prefix_vcf_file", call.=FALSE)
 }
 
 input <- args[1]

@@ -7,7 +7,7 @@
 ## loading libraries and reading arguments
 args <- commandArgs(T)
 if (length(args)!=3) {
-  stop("Usage: Rscript ~/scripts/plotPCAngsd.R prefix metadata", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/plotPCAngsd.R prefix_cov_file metadata", call.=FALSE)
 }
 
 input <- args[1]

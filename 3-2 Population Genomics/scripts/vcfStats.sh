@@ -10,8 +10,8 @@ if [[ $# != 2 ]]; then
         exit 1
 fi
 
-INPUT=$1 # VCF Input file, ex. ../allSamples_134ind_batch004.vcf.gz
-OUT=$2 # Output prefix name, ex. allSamples_134ind_batch004
+INPUT=$1
+OUT=$2
 
 ### random sampling
 bcftools view $INPUT | vcfrandomsample -r 0.012 > $OUT.subset.vcf
