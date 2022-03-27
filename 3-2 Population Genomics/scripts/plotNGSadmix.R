@@ -7,12 +7,12 @@
 # Reading arguments
 args <- commandArgs(T)
 if (length(args)!=3) {
-  stop("Usage: Rscript ~/scripts/plotNGSadmix.R prefix_qopt_file k_num metadata", call.=FALSE)
+  stop("Usage: Rscript ~/scripts/plotNGSadmix.R qopt_file k_num metadata", call.=FALSE)
 }
 
-qopt <- args[1]
-k <- args[2]
-metadata <- args[3]
+qopt <- args[1] # .qopt file name, ex. leopard_17ind_k2.qopt
+k <- args[2] # Number of K from input qopt, ex. 2
+metadata <- args[3] # Metadata of the population, ~/leopard_data/leopard_17ind_metadata.csv 
 rm(args)
 
 # Get ID and pop info for each individual
