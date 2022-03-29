@@ -17,7 +17,8 @@ curl -o LRU.felcat8.chrE1.fasta.gz https://raw.githubusercontent.com/ffertrindad
 curl -o PPA.felcat8.chrE1.fasta.gz https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-1%20Phylogenomics/data/PPA.felcat8.chrE1.fasta.gz
 curl -o PTI.felcat8.chrE1.fasta.gz https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-1%20Phylogenomics/data/PTI.felcat8.chrE1.fasta.gz
 curl -o FNI.felcat8.chrE1.fasta.gz https://raw.githubusercontent.com/ffertrindade/EvolGenomics/main/3-1%20Phylogenomics/data/FNI.felcat8.chrE1.fasta.gz
-ls *.chrE1.fasta
+gunzip *.fasta.gz
+sed -i 's/>chrE1:1-61081816/>chrE1/g' FNI.felcat8.chrE1.fasta
 ```
 
 The initial step will not be shown in this tutorial is to generate the consensus sequence of the genomes. In order for this method to work, the sequence reads from all species must be mapped against the same reference.  To generate the consensus sequence from the mapping files (BAM) you can use [ANGSD](ttp://www.popgen.dk/angsd/index.php/ANGSD) with the "-doFasta 1" parameter. 
@@ -87,13 +88,13 @@ The next step is to build the alignments that will be used as inputs for IQTREE 
 
 The script requires that you create a file with the path for the 10kb fasta files. We can achieve this by doing:
 ```
-realpath *.10kb.fasta > 10kb.fasta.txt
+realpath *.10kb.fasta > dataset.list
 ```
 
 Now we can run the script. You can download the script to build the alignments using this command:
 ```
 curl -o buildAlignment.py https://raw.githubusercontent.com/henriquevf/buildAlignment/main/buildAlignment.py
-python buildAlignment.py 10kb.fasta.txt
+python buildAlignment.py dataset.list
 ```
 
 The script will create a folder with one alignment file for each window containing the five species. Now we are ready to perform the phylogenetic analysis. The fasta header will look like this:
