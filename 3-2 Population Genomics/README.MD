@@ -115,6 +115,7 @@ cd ~
 -minInd [int]: Only keep sites with at least 1x from at least [int] individuals.
 ```
 The above command resulted in **560,520 variable sites filtered according the parameters**. Below you can see how our BEAGLE (file with genotype likelihoods for each individual) and MAF (file with allele frequencies for the entire population) files look like:
+
 ![BEAGLE](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/gl/file_beagle.PNG)
 ![MAF](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/gl/file_maf.PNG)
 
@@ -166,7 +167,8 @@ bcftools concat -o leopard_17ind.filtered.vcf leopard_17ind.NC_018736.3-1-100000
 --remove-indels : Exclude sites that contain an indel. For these options "indel" means any variant that alters the length of the REF allele.
 ```
 The above command resulted in a total of **105,321 filtered sites**. Bellow you can see how the final VCF file looks like:
-![BCFTOOLS](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/leopard_17ind.filtered.vcf.png)
+
+![BCFTOOLS](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/leopard_17ind.filtered.vcf.PNG)
 
 Finally, to have a stats summary of our cleanned VCF (which is very useful to understand our data and exclude outliers) we can also use vcftools:
 ```
@@ -182,7 +184,7 @@ Bellow are some of these stats (see [here](https://github.com/ffertrindade/EvolG
 ![LQUAL](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/vcfstats/leopard_17ind.subset.lqual.png)
 
 ## Estimates of population structure and admixture
-Now that we have SNPs and genotype likelihoods, the main exercise of today is explore genomic structure within our dataset. We're going to observe this by using [NGSadmix](http://www.popgen.dk/software/index.php/NgsAdmix) and [Admixture](https://dalexander.github.io/admixture/), which will give global admixture proportions for each individual, and [PCAngsd](http://www.popgen.dk/software/index.php/PCAngsd) and [PLINK](https://zzz.bwh.harvard.edu/plink/), which will give (and can give other several things) a matrix of clustering based in our dataset. Those four software will be using the **beagle or VCF** files. 
+Now that we have SNPs and genotype likelihoods, the main exercise of today is explore genomic structure within our dataset. We're going to observe this by using [NGSadmix](http://www.popgen.dk/software/index.php/NgsAdmix) and [Admixture](https://dalexander.github.io/admixture/), which will give global ancestry proportions for each individual, and [PCAngsd](http://www.popgen.dk/software/index.php/PCAngsd) and [PLINK](https://zzz.bwh.harvard.edu/plink/), which will give (and can give other several things) a matrix of clustering based in our dataset. Those four software will be using the **beagle or VCF** files. 
 
 First of all, **in case you haven't run the above commands to create beagle and VCF files, please download them** from our repo:
 ```
@@ -229,6 +231,9 @@ Rscript ~/scripts/plotNGSadmix.R leopard_17ind_k2.qopt 2  ~/leopard_data/leopard
 ## Use the same command line above to plot for K up to 6 ##
 cd ~
 ```
+Result from K=2 ordered by population name:
+
+![NGSADMIX](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/ngsadmix/plots/leopard_17ind_k2.ordp.png)
 
 ### PCA using PLINK
 Now we're going to use the VCF file to observe population structure and clustering. First we need to filter linked sites using **PLINK**. The analyses will create four files: (i) *.prune.in*, list of unlinked sites; (ii) *.prune.out*, list of linked sites to exclude; (vi) *.log*, log file of PLINK run; (vii) *.nosex*, individuals with unknown sex. As an **exercise of the course, you should run it and do the PCA plot**, and compare the results with the other analyses.
@@ -273,7 +278,7 @@ cd ~
 ```
 
 ### Global ancestry proportions using Admixture
-The bellow steps are not required to perform for the course exercises, but you can do if you'd like.
+The bellow steps are not required to perform for the course exercises, but you can do if you want to.
 
 We can now use some of the other files created by PLINK to run **Admixture** and get the individual's global ancestry proportions. This analysis is compared to that from NGSadmix, but using different dataset and premisses. Do the following:
 ```
@@ -330,4 +335,5 @@ python ~/scripts/pcangsd/pcangsd.py -beagle ../gl/leopard_17ind.beagle.gz -out l
 Rscript ~/scripts/plotPCAngsd.R leopard_17ind ~/leopard_data/leopard_17ind_metadata.csv
 ```
 Here is the expected result:
+
 ![PCANGSD](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/pcangsd/plots/leopard_17ind.PC1-2.png)
