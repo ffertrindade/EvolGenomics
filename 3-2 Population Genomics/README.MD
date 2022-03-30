@@ -1,11 +1,12 @@
 ## 3-2 Population Genomics
 Today you are going to learn how to perform basic populational analyses using complete genomes at low depth, including calling, basic statistics, and population structure using global ancestry proportions and principal component analyses. We're going to use as example the data from [Pecnerova et al., 2021](https://doi.org/10.1016/j.cub.2021.01.064).
+
 ![paper](https://els-jbs-prod-cdn.jbs.elsevierhealth.com/cms/attachment/34083935-fab8-4250-9e3c-5f85f2bc009e/fx1.jpg)
 
 The data we'll be using are **17 leopard individuals from 6 populations across Africa** (see [metadata](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/data/leopard_17ind_metadata.csv)). These data had been previouslly subsampled and mapped to domestic cat [felCat9](https://www.ncbi.nlm.nih.gov/assembly/GCF_000181335.3) **chromosome E1** (63,494,689bp), and the resulted [bam](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/data/leopard_17ind.bamlist) files are which we'll be using for this session. You can check the detailed used workflow for mapping [here](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/workflows/mapping/snakefile).
 
 ### Practice on NLHPC cluster
-Don't forget to create a script from **NLHPC cluster** with this [tool](https://wiki.nlhpc.cl/Generador_Scripts) to run your analyses, using [sbatch](https://wiki.nlhpc.cl/SISTEMA_GESTOR_DE_RECURSOS#Ejecutando_trabajos) to submit your jobs! But first, in case you user is not configured to use conda, do the following steps to do so: 
+Don't forget to create a script from **NLHPC cluster** with this [tool](https://wiki.nlhpc.cl/Generador_Scripts) to run your analyses, using [sbatch](https://wiki.nlhpc.cl/SISTEMA_GESTOR_DE_RECURSOS#Ejecutando_trabajos) to submit your jobs! But first, in case conda have not been previously configured for your user, do the following steps to do so: 
 ```
 # 1- Login in your NLHPC user and enter your password
 ssh instructor01@leftraru.nlhpc.cl
@@ -20,7 +21,7 @@ ml Anaconda3/2020.02
 conda activate bio-hpc
 ```
 
-Then, bellow is an exemple of how your script to submit to the cluster with you jobs/analyses should look like:
+Then, bellow is an example of how the script (to submit to the cluster with you jobs/analyses) should look like:
 ```
 #!/bin/bash
 #---------------SLURM Script - NLHPC ----------------
@@ -42,10 +43,10 @@ ml  Anaconda3/2020.02
 conda activate bio-hpc
 NGSadmix -likes ../gl/leopard_17ind.beagle.gz -K 2 -P 4 -seed 1 -o leopard_17ind_k2
 ```
-Remember that we also have **R scripts** to plot the results. You can run it by downloading the scripts and the input files to your computer and then using Rstudio (and install the required libraries), or run it directly in the cluster following the instructions.
+Remember that we also have **R scripts** to plot the results. You can download the scripts and the input files to your computer and then run using Rstudio (don't forget to install the required libraries), or run it directly in the cluster following the instructions.
 
 ## SNP calling vs. genotype likelihoods
-From the above mentioned dataset, which we'll call *leopard_17ind*, we'll use two different approaches to identify informative sites: (i) **genotype likelihoods** and (ii) **SNP calling**. Note that depending on your dataset design (specially conserning depth) and the analyses and software you're planning to use, you'll choose one or another approach. Bellow here are the step by step in case you want to reproduce them (we'll give the files for the final exercises since the below steps can take too long).
+From the above mentioned dataset, which we'll call *leopard_17ind*, we'll use two different approaches to identify informative sites: (i) **genotype likelihoods** (which is different from imputing or calling genotypes!) and (ii) **SNP calling**. Note that depending on your dataset design (specially concerning depth) and the analyses and software you're planning to use, you'll choose one or another approach. Further, you can use both approaches together to improve each other and, for example, do imputation. However, for today's class we are going to show how to estimate genotype likelihoods alone and how to call SNPs from a multi-sample perspective. Bellow here are the step by step in case you want to reproduce them (we'll give the files for the final exercises since the below steps can take too long).
 
 The bam files are avaiable in a shared folder on the server. For the whole tutorial, we recomend you to download all the scripts and required files from our repository:
 ```
@@ -140,8 +141,7 @@ bash ~/scripts/HaplotypeCaller.sh ~/leopard_data/leopard_17ind.bamlist ~/leopard
 -I : input bam file (several in the same run).
 # Note that can be more useful to use GVCF approach https://gatk.broadinstitute.org/hc/en-us/articles/360035531812-GVCF-Genomic-Variant-Call-Format
 ```
-The above command resulted in a total of **1,448,909 identified sites**. Bellow you can see how these VCF files looks like:
-![GATK](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/leopard_17ind.NC_018736.3-20000000-30000000.vcf.gz.PNG)
+The above command resulted in a total of **1,448,909 identified sites**. 
 
 However, the GATK command above results are too raw and need to be filtered. For that, we are going to use [vcftools](http://vcftools.sourceforge.net/man_latest.html), but there are a lot of options (even using GATK) to improve your dataset. Further, the bellow commands are very basic and general, to properlly filter your VCF files you can check them more deeply.
 ```
@@ -153,7 +153,7 @@ vcftools --gzvcf leopard_17ind.NC_018736.3-30000000-40000000.vcf.gz --recode --r
 vcftools --gzvcf leopard_17ind.NC_018736.3-40000000-50000000.vcf.gz --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-40000000-50000000 --minDP 5 --maxDP 15 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 vcftools --gzvcf leopard_17ind.NC_018736.3-50000000-63494689.vcf.gz --recode --recode-INFO-all --out leopard_17ind.NC_018736.3-50000000-63494689 --minDP 5 --maxDP 15 --maf .05 --max-maf .95 --min-alleles 2 --max-alleles 2 --remove-indels
 # Concatenate the filtered VCFs created with vcftools using bcftools
-bcftools concat -o leopard_17ind.filtered.vcf leopard_17ind.*.recode.vcf
+bcftools concat -o leopard_17ind.filtered.vcf leopard_17ind.NC_018736.3-1-10000000.recode.vcf leopard_17ind.NC_018736.3-10000000-20000000.recode.vcf leopard_17ind.NC_018736.3-20000000-30000000.recode.vcf leopard_17ind.NC_018736.3-30000000-40000000.recode.vcf leopard_17ind.NC_018736.3-40000000-50000000.recode.vcf leopard_17ind.NC_018736.3-50000000-63494689.recode.vcf
 ```
 **Parameters used:**
 ```
@@ -165,8 +165,8 @@ bcftools concat -o leopard_17ind.filtered.vcf leopard_17ind.*.recode.vcf
 --min-alleles <integer> and --max-alleles <integer> : Include only sites with a number of alleles greater than or equal to the "--min-alleles" value and less than or equal to the "--max-alleles" value. 
 --remove-indels : Exclude sites that contain an indel. For these options "indel" means any variant that alters the length of the REF allele.
 ```
-The above command resulted in a total of **87,613 filtered sites**. Bellow you can see how the final VCF file looks like:
-![BCFTOOLS](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/leopard_17ind.filtered.vcf.PNG)
+The above command resulted in a total of **105,321 filtered sites**. Bellow you can see how the final VCF file looks like:
+![BCFTOOLS](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/vcf/leopard_17ind.filtered.vcf.png)
 
 Finally, to have a stats summary of our cleanned VCF (which is very useful to understand our data and exclude outliers) we can also use vcftools:
 ```
@@ -229,8 +229,6 @@ Rscript ~/scripts/plotNGSadmix.R leopard_17ind_k2.qopt 2  ~/leopard_data/leopard
 ## Use the same command line above to plot for K up to 6 ##
 cd ~
 ```
-Bellow are how the results for K2 ordered by population should look like:
-![pop](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/ngsadmix/plots/leopard_17ind_k2.ordp.png)
 
 ### PCA using PLINK
 Now we're going to use the VCF file to observe population structure and clustering. First we need to filter linked sites using **PLINK**. The analyses will create four files: (i) *.prune.in*, list of unlinked sites; (ii) *.prune.out*, list of linked sites to exclude; (vi) *.log*, log file of PLINK run; (vii) *.nosex*, individuals with unknown sex. As an **exercise of the course, you should run it and do the PCA plot**, and compare the results with the other analyses.
@@ -252,7 +250,7 @@ cd ~
 --indep-pairwise 10 10 0.9 : windows of 10 SNPs, step size of 10 SNPs, prune sites with r2 greater than 0.9
 --out : output prefix name.
 ```
-The above command shows that we have **34,497 unlinked sites** in this dataset.
+The above command shows that we have **39,666 unlinked sites** in this dataset.
 
 Bellow is the command line to run **PLINK** to perform PCA based on VCF file. The analyses will create seven files: (i) *.bed*, binary file with genotypes, it'll be used for next Admixture analysis; (ii) *.bim*, file with a sort of information about the sites; (iii) *.eigenval*, eigenvalues for the PCA analysis; (iv) *.eigenvec*, eigenvectors for the PCA analysis; (v) *.fam*, file with information about the individuals; (vi) *.log*, log file of PLINK run; (vii) *.nosex*, individuals with unknown sex. As an **exercise of the course, you should run it**, and compare the results with the other analyses:
 ```
@@ -303,11 +301,11 @@ Rscript ~/scripts/plotAdmixture.R leopard_17ind.filtered.pruned 3 ~/leopard_data
 Rscript ~/scripts/plotAdmixture.R leopard_17ind.filtered.pruned 4 ~/leopard_data/leopard_17ind_metadata.csv
 Rscript ~/scripts/plotAdmixture.R leopard_17ind.filtered.pruned 5 ~/leopard_data/leopard_17ind_metadata.csv
 Rscript ~/scripts/plotAdmixture.R leopard_17ind.filtered.pruned 6 ~/leopard_data/leopard_17ind_metadata.csv
-# Plot the Admixture CV error using the downloaded script
-Rscript ~/scripts/plotCVerror.R leopard_17ind.filtered.pruned.cverror.txt
 cd ~
 ```
 The final plots should look like [these](https://github.com/ffertrindade/EvolGenomics/tree/main/3-2%20Population%20Genomics/results/admixture/plots).
+
+![ADMIXTURE](https://github.com/ffertrindade/EvolGenomics/blob/main/3-2%20Population%20Genomics/results/admixture/plots/leopard_17ind.filtered.pruned.2.ordp.png)
 
 ### PCA using PCAngsd
 Finally, you can also run **PCAngsd** using your beagle file. Since it's a script, you should be able to download it from github:
