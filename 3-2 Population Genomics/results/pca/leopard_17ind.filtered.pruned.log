@@ -2,32 +2,32 @@ PLINK v1.90b6.21 64-bit (19 Oct 2020)
 Options in effect:
   --allow-extra-chr
   --double-id
-  --extract ../gatk/leopard_17ind.filtered.prune.in
+  --extract ../gatk_v2/leopard_17ind.filtered.prune.in
   --make-bed
   --out leopard_17ind.filtered.pruned
   --pca
   --set-missing-var-ids @:#
-  --vcf ../gatk/leopard_17ind.filtered.vcf
+  --vcf ../gatk_v2/leopard_17ind.filtered.vcf
 
-Hostname: leftraru2
+Hostname: sn008
 Working directory: /home/courses/instructor01/pca
-Start time: Tue Mar 22 12:56:12 2022
+Start time: Wed Mar 30 12:37:45 2022
 
-Random number seed: 1647964572
-64287 MB RAM detected; reserving 32143 MB for main workspace.
+Random number seed: 1648654665
+192021 MB RAM detected; reserving 96010 MB for main workspace.
 --vcf: leopard_17ind.filtered.pruned-temporary.bed +
 leopard_17ind.filtered.pruned-temporary.bim +
 leopard_17ind.filtered.pruned-temporary.fam written.
-87613 variants loaded from .bim file.
-87613 missing IDs set.
+105321 variants loaded from .bim file.
+105321 missing IDs set.
 17 people (0 males, 0 females, 17 ambiguous) loaded from .fam.
 Ambiguous sex IDs written to leopard_17ind.filtered.pruned.nosex .
---extract: 34497 variants remaining.
-Using up to 19 threads (change this with --threads).
+--extract: 39666 variants remaining.
+Using up to 43 threads (change this with --threads).
 Before main variant filters, 17 founders and 0 nonfounders present.
 Calculating allele frequencies... done.
-Total genotyping rate is 0.525498.
-34497 variants and 17 people pass filters and QC.
+Total genotyping rate is 0.462681.
+39666 variants and 17 people pass filters and QC.
 Note: No phenotypes present.
 Relationship matrix calculation complete.
 Warning: calculating 17 PCs, since there are only 17 samples.
@@ -36,4 +36,4 @@ leopard_17ind.filtered.pruned.eigenvec .
 --make-bed to leopard_17ind.filtered.pruned.bed +
 leopard_17ind.filtered.pruned.bim + leopard_17ind.filtered.pruned.fam ... done.
 
-End time: Tue Mar 22 12:56:12 2022
+End time: Wed Mar 30 12:37:45 2022
