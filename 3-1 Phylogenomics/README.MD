@@ -51,7 +51,7 @@ cut -f1,2 LCA.felcat8.chrE1.fasta.fai > genome.txt
 
 The next step is to run bedtools makewindows, with the genome file, the window size, and the interval between each window, called step size. Window size is total size of the sequences we are going to work with. Step size is the length that we are going to skip between each window. For this tutorial we are using a big step size so we can have fewer windows, but normally use you can apply a much smaller step size or even not use any (in this case, windows would be contiguous).
 ```
-bedtools makewidows -g genome.txt -w 10000 -s 5000000 > 10kb.windows.bed
+bedtools makewindows -g genome.txt -w 10000 -s 5000000 > 10kb.windows.bed
 ```
 The output looks like this:
 ```
