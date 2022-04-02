@@ -27,7 +27,7 @@ samtools faidx PTI.felcat8.chrE1.fasta
 ```
 If you have more samples and need to speed up the process you can do a loop to create the index of all files with one command.
 ```
-for i in *.fasta; do samtools faidx $i.fasta; done
+for i in *.fasta; do samtools faidx $i; done
 ```
 
 Now is the part where it gets different from the phylogenomics tutorial. Instead of creating the windows bed file, we are going to use the annotation file for the domestic cat in gff format. The domestic cat is an important model species used in several projects with wild cats. The annotation used should be from the same genome used as a reference, and also the same version. For this tutorial, we are using an old version of the cat genome and its annotation (felCat8). 
@@ -107,7 +107,7 @@ buildAlignment.py cds_alignments.list
 In order to simplify things we need to move some scripts we are going to use further to the windows folders.
 ```
 cp buildETE3.py cds_alignments/windows/
-cp cat_phylogeny.tre cds_alignments/windows/
+cp cats_phylogeny.tre cds_alignments/windows/
 cp getPositiveGenes.sh cds_alignments/windows/
 ```
 How many alignments do we have? 
@@ -296,8 +296,7 @@ chrE1	Gnomon	mRNA	22796935	22807377	.	+	.	ID=rna28793;geneID=gene19902;gene_name
 ```
 To make our life easier in the long run we can add a couple more bash command so we generate a table. This can also be transformed into a bash script.
 ```
-grep -f positiveGenes_bs.txt GCF_000181335.2_Felis_catus_8.0_genomic.chrE1.edited.gff | grep "
-mRNA" | cut -f 9 -d$'\t' | cut -f 1,3 -d ";" | sed "s/;/\t/g" | sed "s/ID=//g" | sed "s/gene_name=//g"
+grep -f positiveGenes_bs.txt GCF_000181335.2_Felis_catus_8.0_genomic.chrE1.edited.gff | grep "mRNA" | cut -f 9 -d$'\t' | cut -f 1,3 -d ";" | sed "s/;/\t/g" | sed "s/ID=//g" | sed "s/gene_name=//g"
 ```
 ```
 rna28500	LOC101095207
